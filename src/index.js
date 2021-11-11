@@ -4,6 +4,7 @@ import React, {
 } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import moment from 'moment'
 
 function GitHubUser({login}) {
   const [data, setData] = useState(null);
@@ -15,7 +16,7 @@ function GitHubUser({login}) {
   }, []);
 
   if (data) {
-    console.log(data.created_at)
+    const createdAt =  moment(data.created_at).format('MMMM Do YYYY')
     return (
       <div>
         <h1>{data.login}</h1>
@@ -23,7 +24,7 @@ function GitHubUser({login}) {
         <a href={data.html_url}>View on Github</a>
         <p>{data.location}</p>
         <p>{data.public_repos} public repos</p>
-        <p>Github user since: {data.created_at}</p>
+        <p>Github user since: {createdAt}</p>
       </div>
     )
   }
