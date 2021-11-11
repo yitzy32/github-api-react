@@ -37,11 +37,43 @@ function GitHubUser({login}) {
   return null;
 }
 
+
+function Repos({login}) {
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    const headers = {
+      "Authorization": `Token ${process.env.REACT_APP_GITHUB_TOKEN}`
+    }
+    fetch(`https://api.github.com/users/${login}/repos?per_page=100`, {
+      "method": "GET",
+      "headers": headers
+    })
+    .then(res => res.json())
+    .then(setData)
+    .catch(console.error);
+  }, []);
+
+  if (data) {
+    console.log(data.length)
+    return(
+      <h2>{data[0].name}</h2>
+    )
+  }
+  return null
+}
+
 function App() {
   return <GitHubUser login="yitzy32"/>;
 }
 
+function AppTwo() {
+  return <Repos login="yitzy32"/>
+}
+
 ReactDOM.render(
-  <App />,
+  <>
+    <App />,
+    <AppTwo />,
+  </>,
   document.getElementById('root')
 );
