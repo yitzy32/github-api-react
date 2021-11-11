@@ -9,7 +9,13 @@ import moment from 'moment'
 function GitHubUser({login}) {
   const [data, setData] = useState(null);
   useEffect(() => {
-    fetch(`https://api.github.com/users/${login}`)
+    const headers = {
+      "Authorization": `Token ${process.env.REACT_APP_GITHUB_TOKEN}`
+    }
+    fetch(`https://api.github.com/users/${login}`, {
+      "method": "GET",
+      "headers": headers
+    })
     .then(res => res.json())
     .then(setData)
     .catch(console.error);
