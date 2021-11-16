@@ -34,7 +34,7 @@ const MostRecentlyPushed = (props) => {
   return (
     <div>
       <h2>Written in:</h2>
-      {languages.map(lang => <div>{lang}</div>)} 
+      <div>{languages.map(lang => <div key={lang}>{lang}</div>)}</div>
     </div>
      );
 }
