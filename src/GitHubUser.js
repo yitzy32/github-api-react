@@ -3,6 +3,7 @@ import React, {
   useEffect
 } from 'react';
 import moment from 'moment'
+import RepoData from './RepoData';
 
 function GitHubUser({login}) {
   const [data, setData] = useState(null);
@@ -29,6 +30,7 @@ function GitHubUser({login}) {
         <p>{data.location}</p>
         <p>{data.public_repos} public repos</p>
         <p>Github user since: {createdAt}</p>
+        <RepoData login={login}/>
       </div>
     )
   }

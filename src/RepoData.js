@@ -4,14 +4,14 @@ import React, {
 } from 'react';
 import MostRecentlyPushed from './MostRecentlyPushed';
 
-function RepoData({login}) {
+function RepoData(props) {
   const [data, setData] = useState(null);
 
   const fetchAllRepoData = () => {
     const headers = {
       "Authorization": `Token ${process.env.REACT_APP_GITHUB_TOKEN}`
     }
-    fetch(`https://api.github.com/users/${login}/repos?per_page=100`, {
+    fetch(`https://api.github.com/users/${props.login}/repos?per_page=100`, {
       "method": "GET",
       "headers": headers
     })
@@ -37,7 +37,7 @@ function RepoData({login}) {
     console.log("repoName:", repoName, "lastPushedMs:", lastPushedMs)
     return(
       <div>
-        <h2>Most recently pushed Repo: {repoName}<MostRecentlyPushed repoName={repoName} login={login}/></h2>
+        <h2>Most recently pushed Repo: {repoName}<MostRecentlyPushed repoName={repoName} login={props.login}/></h2>
       </div>
     )
   }

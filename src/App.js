@@ -7,7 +7,6 @@ function App() {
   return (
     <div className="App">
       <GitHubUser login={login}/>
-      <RepoData login={login}/>
     </div>
   );
 }
