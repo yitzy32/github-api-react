@@ -2,10 +2,12 @@ import React, {
   useState,
   useEffect
 } from 'react';
+import MostRecentlyPushed from './MostRecentlyPushed';
 
 function RepoData({login}) {
   const [data, setData] = useState(null);
-  useEffect(() => {
+
+  const fetchAllRepoData = () => {
     const headers = {
       "Authorization": `Token ${process.env.REACT_APP_GITHUB_TOKEN}`
     }
@@ -16,6 +18,10 @@ function RepoData({login}) {
     .then(res => res.json())
     .then(setData)
     .catch(console.error);
+  }
+
+  useEffect(() => {
+    fetchAllRepoData()
   }, []);
 
   if (data) {
@@ -30,7 +36,9 @@ function RepoData({login}) {
     }
     console.log("repoName:", repoName, "lastPushedMs:", lastPushedMs)
     return(
-      <h2>Most recently pushed Repo: {repoName}</h2>
+      <div>
+        <h2>Most recently pushed Repo: {repoName}<MostRecentlyPushed repoName={repoName} login={login}/></h2>
+      </div>
     )
   }
   return null
