@@ -35,9 +35,12 @@ function RepoData(props) {
       }
     }
     console.log("repoName:", repoName, "lastPushedMs:", lastPushedMs)
+    const lastPushed = new Date(lastPushedMs).toString();
+    // .toString -> Tue Nov 16 2021 09:10:57 GMT-0500 (Eastern Standard Time)
+    // .slice(0, 25) -> Tue Nov 16 2021 09:10:57
     return(
       <div>
-        <h2>Most recently pushed Repo: {repoName}<MostRecentlyPushed repoName={repoName} login={props.login}/></h2>
+        <h2>Most recently pushed Repo: {repoName}. Last Pushed at {lastPushed}<MostRecentlyPushed repoName={repoName} login={props.login}/></h2>
       </div>
     )
   }
