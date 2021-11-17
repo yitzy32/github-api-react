@@ -24,17 +24,23 @@ const MostRecentlyPushed = (props) => {
     fetchMostRecentlyPushedData()
   }, []);
 
-  let languages = []
+  let languages = {}
   if (data) {
     for (const lang in data) {
-      languages.push(lang)
+      languages[lang] = data[lang];
       console.log(`This app has ${data[lang]} charachters of ${lang}`)
     }
   }
   return (
     <div>
-      <h2>Written in:</h2>
-      <div>{languages.map(lang => <div key={lang}>{lang}</div>)}</div>
+      <div>
+        This app contains:
+        {Object.keys(languages).map((lang, i)=> {
+        return (
+          <p key={i}>{languages[lang]} charachters of {lang}</p>
+        )
+        })}
+      </div>
     </div>
      );
 }
