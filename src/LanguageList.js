@@ -6,17 +6,18 @@ import axios from 'axios'
 
 const LanguageList = (props) => {
   const [data, setData] = useState(null);
+  let tracker = {};
 
   const fetchAllRepoData = async () => {
     const headers = {
       "Authorization": `Token ${process.env.REACT_APP_GITHUB_TOKEN}`
     }
-    let tracker = {};
+
     console.log("props.login:", props.login, "props.repoName", props.repoName)
-    props.languageList.forEach(url => {
-      axios.get(`${url}`, {
+    Promise.all(props.languageList.map(url => {
+      return axios.get(`${url}`, {
         "method": "GET",
-        "headers": headers  
+        "headers": headers
       }).then((response) => {
         let keys = Object.keys(response.data)
         keys.map(l => {
@@ -26,25 +27,35 @@ const LanguageList = (props) => {
             tracker[l] = 1
           }
         })
-        // return tracker
       })
-      console.log(tracker);
-    });
+    })).then(() => {
+      setData(tracker);
+    })
   }
 
   useEffect(() => {
     if(props.login && props.repoName){
-        fetchAllRepoData()}
+      fetchAllRepoData()
+    }
   }, [props.login, props.repoName]);
   
   if (data) {
     return (
       <div>
-        <p>Here is data: {data}</p>
+        {data && (
+          <div>User has:
+          {Object.keys(data).map((lang, i)=> {
+          return (
+            <div key={i}>{data[lang]} repositories containing {lang}</div>
+          )
+          })}
+        </div>
+        )}
       </div>
     );
+  } else {
+    return null
   }
-  return <div>hello</div>
 }
  
 export default LanguageList;
