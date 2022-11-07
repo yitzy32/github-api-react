@@ -25,7 +25,7 @@ function RepoData(props) {
   useEffect(() => {
     fetchAllRepoData()
   }, []);
-
+  // the way this is setup now is not optimal. I would rather "run?" <LanguageList /> through every run of this component.
   let languageUrls = [];
   if (data) {
     let lastPushedMs = new Date(data[0].pushed_at).getTime();
@@ -48,9 +48,11 @@ function RepoData(props) {
         <LanguageList 
         login={props.login} 
         repoName={repoName} 
-        languageList={languageUrls}
+        languageUrls={languageUrls}
         />
-        <h2>Most recently pushed Repo: {repoName}. Last Pushed at {lastPushed}<MostRecentlyPushed repoName={repoName} login={props.login}/> <LanguageList languages={languageUrls}/></h2>
+        <h2>
+          Most recently pushed Repo: {repoName}. Last Pushed at {lastPushed}<MostRecentlyPushed repoName={repoName} login={props.login}/>
+        </h2>
       </div>
     )
   }

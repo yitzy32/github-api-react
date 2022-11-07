@@ -13,8 +13,8 @@ const LanguageList = (props) => {
       "Authorization": `Token ${process.env.REACT_APP_GITHUB_TOKEN}`
     }
 
-    console.log("props.login:", props.login, "props.repoName", props.repoName)
-    Promise.all(props.languageList.map(url => {
+    // console.log("props.login:", props.login, "props.repoName", props.repoName)
+    Promise.all(props.languageUrls.map(url => {
       return axios.get(`${url}`, {
         "method": "GET",
         "headers": headers

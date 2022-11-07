@@ -7,6 +7,11 @@ import RepoData from './RepoData';
 
 function GitHubUser({login}) {
   const [data, setData] = useState(null);
+  const [location, setLocation] = useState(null)
+  const [htmlUrl, setHtmlUrl] = useState(null)
+  const [publicRepos, setPublicRepos] = useState(null)
+  const [avatarUrl, setAvatarUrl] = useState(null)
+
   useEffect(() => {
     const headers = {
       "Authorization": `Token ${process.env.REACT_APP_GITHUB_TOKEN}`
@@ -16,7 +21,13 @@ function GitHubUser({login}) {
       "headers": headers
     })
     .then(res => res.json())
-    .then(setData)
+    .then((res) => {
+    setData(res)
+    setLocation(res.location)
+    setHtmlUrl(res.html_url)
+    setPublicRepos(res.public_repos)
+    setAvatarUrl(res.avatar_url)
+    })
     .catch(console.error);
   }, []);
 
@@ -24,17 +35,17 @@ function GitHubUser({login}) {
     const createdAt =  moment(data.created_at).format('MMMM Do YYYY')
     return (
       <div>
-        <h1>{data.login}</h1>
+        <h1>{login}</h1>
         <img src={data.avatar_url} width={100}/>
         <a href={data.html_url}>View on Github</a>
-        <p>{data.location}</p>
+        <p>{location}</p>
         <p>{data.public_repos} public repos</p>
         <p>Github user since: {createdAt}</p>
         <RepoData login={login}/>
       </div>
     )
   }
-  return null;
+  return "Loading....";
 }
  
 export default GitHubUser;
